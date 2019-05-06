@@ -21,13 +21,15 @@ public class JwtAuthUtil {
 
     public UserClaims decode(String token){
         return UserClaims.builder()
-                .userId(Jwts.parser().parseClaimsJwt(token).getBody().getIssuer())
+                .userId(Jwts.parser()
+                        .setSigningKey(secret.getBytes())
+                        .parseClaimsJws(token).getBody().getIssuer())
                 .build();
     }
 
     public String encode(UserClaims claims){
 
-        return Jwts.builder().setIssuer(claims.userId).signWith(SignatureAlgorithm.HS256, TextCodec.BASE64.decode(secret)).compact();
+        return Jwts.builder().setIssuer(claims.userId).signWith(SignatureAlgorithm.HS256, secret.getBytes()).compact();
     }
 
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder

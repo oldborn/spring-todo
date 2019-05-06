@@ -29,7 +29,7 @@ public class JwtAuthentication implements Authentication {
 
     @Override
     public Object getCredentials() {
-        return authentication.getCredentials();
+        return jwtAuthUtil.decode((String) authentication.getCredentials()).getUserId();
     }
 
     @Override
@@ -44,7 +44,8 @@ public class JwtAuthentication implements Authentication {
 
     @Override
     public boolean isAuthenticated() {
-        return getCredentials() != null;
+        if (getCredentials() == null) return false;
+        return jwtAuthUtil.decode((String) authentication.getCredentials()) != null;
     }
 
     @Override
