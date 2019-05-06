@@ -60,6 +60,7 @@ public class JwtAuthFilter extends AbstractPreAuthenticatedProcessingFilter {
     @Override
     protected Object getPreAuthenticatedCredentials(HttpServletRequest httpServletRequest) {
         String principalAndToken = httpServletRequest.getHeader("Authorization");
+        if (principalAndToken == null) return null;
         String[] tokens = principalAndToken.split(" ");
         return tokens.length > 1 ? tokens[1] : null;
     }

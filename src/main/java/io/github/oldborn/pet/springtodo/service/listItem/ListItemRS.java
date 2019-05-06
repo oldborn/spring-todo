@@ -1,4 +1,4 @@
-package io.github.oldborn.pet.springtodo.service.listItem.model;
+package io.github.oldborn.pet.springtodo.service.listItem;
 
 import io.github.oldborn.pet.springtodo.resource.item.document.Item;
 import lombok.*;

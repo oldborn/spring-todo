@@ -3,8 +3,6 @@ package io.github.oldborn.pet.springtodo.service.listItem;
 import io.github.oldborn.pet.springtodo.resource.item.document.Item;
 import io.github.oldborn.pet.springtodo.resource.item.repository.ItemRepository;
 import io.github.oldborn.pet.springtodo.service.AsyncableService;
-import io.github.oldborn.pet.springtodo.service.listItem.model.ListItemRQ;
-import io.github.oldborn.pet.springtodo.service.listItem.model.ListItemRS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

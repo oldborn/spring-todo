@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/health").permitAll()
                 .antMatchers("/swagger-resources/**","/swagger-ui.html","/swagger-ui.html/**","/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
-                .antMatchers("/user").permitAll()
+                .antMatchers("/user","/user/**").permitAll()
                 .and()
                     .addFilter(jwtAuthFilter)
                     .authorizeRequests()
