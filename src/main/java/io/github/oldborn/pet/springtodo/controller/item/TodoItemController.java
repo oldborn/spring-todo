@@ -8,6 +8,8 @@ import io.github.oldborn.pet.springtodo.service.listItem.ListItemRS;
 import io.github.oldborn.pet.springtodo.service.listItem.model.Mode;
 import io.github.oldborn.pet.springtodo.service.markItem.MarkItemRQ;
 import io.github.oldborn.pet.springtodo.service.markItem.MarkItemService;
+import io.github.oldborn.pet.springtodo.service.removeItem.RemoveItemRQ;
+import io.github.oldborn.pet.springtodo.service.removeItem.RemoveItemService;
 import io.github.oldborn.pet.springtodo.service.saveItem.SaveItemRQ;
 import io.github.oldborn.pet.springtodo.service.saveItem.SaveItemRS;
 import io.github.oldborn.pet.springtodo.service.saveItem.SaveItemService;
@@ -35,6 +37,9 @@ public class TodoItemController {
 
     @Autowired
     private MarkItemService markItemService;
+
+    @Autowired
+    private RemoveItemService removeItemService;
 
     @PostMapping
     public SaveItemRS addItem(@RequestBody TodoAddItemRQ todoItem){
@@ -70,6 +75,12 @@ public class TodoItemController {
     public void mark(@PathVariable("item-code") String itemCode){
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
         markItemService.execute(MarkItemRQ.builder().userId(userId).itemCode(itemCode).build());
+    }
+
+    @DeleteMapping("/{item-code}")
+    public void remove(@PathVariable("item-code") String itemCode){
+        String userId = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        removeItemService.execute(RemoveItemRQ.builder().userId(userId).itemCode(itemCode).build());
     }
 
 }
