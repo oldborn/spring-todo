@@ -4,11 +4,12 @@ import io.github.oldborn.pet.springtodo.controller.item.model.TodoAddItemRQ;
 import io.github.oldborn.pet.springtodo.controller.item.model.TodoItem;
 import io.github.oldborn.pet.springtodo.resource.item.document.Item;
 import io.github.oldborn.pet.springtodo.service.listItem.ListItemService;
-import io.github.oldborn.pet.springtodo.service.listItem.model.ListItemRQ;
-import io.github.oldborn.pet.springtodo.service.listItem.model.ListItemRS;
+import io.github.oldborn.pet.springtodo.service.listItem.ListItemRQ;
+import io.github.oldborn.pet.springtodo.service.listItem.ListItemRS;
 import io.github.oldborn.pet.springtodo.service.listItem.model.Mode;
 import io.github.oldborn.pet.springtodo.service.saveItem.SaveItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class TodoItemController {
 
     @PostMapping
     public TodoItem addItem(@RequestBody TodoAddItemRQ todoItem){
+        String userId = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
         Item item = saveItemService.execute(Item.builder()
                 .isDone(false)
                 .description(todoItem.getDescription())
@@ -48,6 +50,7 @@ public class TodoItemController {
 
     @GetMapping
     public List<TodoItem> getItems(){
+        String userId = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
         ListItemRS listItemRS = listItemService.execute(ListItemRQ.builder().mode(Mode.ALL).build());
         return listItemRS.getItems().stream().map(
                 ti -> TodoItem.builder()
