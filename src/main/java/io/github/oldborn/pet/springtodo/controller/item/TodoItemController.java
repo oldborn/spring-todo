@@ -2,6 +2,7 @@ package io.github.oldborn.pet.springtodo.controller.item;
 
 import io.github.oldborn.pet.springtodo.controller.item.model.TodoAddItemRQ;
 import io.github.oldborn.pet.springtodo.controller.item.model.TodoItem;
+import io.github.oldborn.pet.springtodo.controller.item.model.UpdateTodoItemRQ;
 import io.github.oldborn.pet.springtodo.service.listItem.ListItemService;
 import io.github.oldborn.pet.springtodo.service.listItem.ListItemRQ;
 import io.github.oldborn.pet.springtodo.service.listItem.ListItemRS;
@@ -71,10 +72,22 @@ public class TodoItemController {
         ).collect(Collectors.toList());
     }
 
-    @PutMapping("/{item-code}")
+    @PutMapping("/{item-code}/mark")
     public void mark(@PathVariable("item-code") String itemCode){
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
         markItemService.execute(MarkItemRQ.builder().userId(userId).itemCode(itemCode).build());
+    }
+
+    @PutMapping("/{item-code}")
+    public void update(@PathVariable("item-code") String itemCode, @RequestBody UpdateTodoItemRQ updateTodoItemRQ){
+        String userId = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        saveItemService.execute(SaveItemRQ.builder()
+                .userId(userId)
+                .code(itemCode)
+                .isDone(updateTodoItemRQ.getIsDone())
+                .description(updateTodoItemRQ.getDescription())
+                .title(updateTodoItemRQ.getTitle())
+                .build());
     }
 
     @DeleteMapping("/{item-code}")

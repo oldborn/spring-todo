@@ -10,7 +10,7 @@ import lombok.*;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class SaveItemRQ {
     private String userId;
-    private String id;
+    private String code;
     private String title;
     private String description;
     @Builder.Default private Boolean isDone = Boolean.FALSE;
