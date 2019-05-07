@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @N1qlPrimaryIndexed
-@ViewIndexed(designDoc = "item")
+@ViewIndexed(designDoc = "user")
 public interface UserRepository extends CrudRepository<User,String> {
 
     User findByEmail(String email);

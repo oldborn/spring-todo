@@ -10,6 +10,9 @@ import lombok.*;
  */
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class ListItemRQ {
+
+    private String userId;
+
     @Builder.Default
     private Mode mode = Mode.ALL;
 }

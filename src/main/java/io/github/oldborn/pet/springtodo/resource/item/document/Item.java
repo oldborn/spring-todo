@@ -1,6 +1,7 @@
 package io.github.oldborn.pet.springtodo.resource.item.document;
 
 import com.couchbase.client.java.repository.annotation.Field;
+import io.github.oldborn.pet.springtodo.resource.user.document.User;
 import lombok.*;
 import org.joda.time.DateTime;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,9 +23,8 @@ import static org.springframework.data.couchbase.core.mapping.id.GenerationStrat
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Item {
 
-    @Id
-    @GeneratedValue(strategy = UNIQUE)
-    private String id;
+    @Field
+    private String code;
 
     @Field
     @NotNull
@@ -42,5 +42,9 @@ public class Item {
     @LastModifiedDate
     private DateTime updated;
 
+    public Boolean flipDone(){
+        this.isDone = !this.isDone;
+        return this.isDone;
+    }
 
 }

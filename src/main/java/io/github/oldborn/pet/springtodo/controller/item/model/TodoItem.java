@@ -10,7 +10,7 @@ import org.joda.time.DateTime;
  */
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class TodoItem {
-    private String id;
+    private String code;
     private String title;
     private String description;
     private DateTime creationDate;

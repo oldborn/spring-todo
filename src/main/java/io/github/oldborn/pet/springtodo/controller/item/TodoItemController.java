@@ -2,11 +2,14 @@ package io.github.oldborn.pet.springtodo.controller.item;
 
 import io.github.oldborn.pet.springtodo.controller.item.model.TodoAddItemRQ;
 import io.github.oldborn.pet.springtodo.controller.item.model.TodoItem;
-import io.github.oldborn.pet.springtodo.resource.item.document.Item;
 import io.github.oldborn.pet.springtodo.service.listItem.ListItemService;
 import io.github.oldborn.pet.springtodo.service.listItem.ListItemRQ;
 import io.github.oldborn.pet.springtodo.service.listItem.ListItemRS;
 import io.github.oldborn.pet.springtodo.service.listItem.model.Mode;
+import io.github.oldborn.pet.springtodo.service.markItem.MarkItemRQ;
+import io.github.oldborn.pet.springtodo.service.markItem.MarkItemService;
+import io.github.oldborn.pet.springtodo.service.saveItem.SaveItemRQ;
+import io.github.oldborn.pet.springtodo.service.saveItem.SaveItemRS;
 import io.github.oldborn.pet.springtodo.service.saveItem.SaveItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,36 +33,43 @@ public class TodoItemController {
     @Autowired
     private ListItemService listItemService;
 
+    @Autowired
+    private MarkItemService markItemService;
+
     @PostMapping
-    public TodoItem addItem(@RequestBody TodoAddItemRQ todoItem){
+    public SaveItemRS addItem(@RequestBody TodoAddItemRQ todoItem){
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
-        Item item = saveItemService.execute(Item.builder()
-                .isDone(false)
-                .description(todoItem.getDescription())
+        SaveItemRS saveItemRS = saveItemService.execute(SaveItemRQ.builder()
                 .title(todoItem.getTitle())
+                .description(todoItem.getDescription())
+                .userId(userId)
                 .build());
 
-        return TodoItem.builder()
-                .creationDate(item.getCreated())
-                .description(item.getDescription())
-                .id(item.getId())
-                .title(item.getTitle())
-                .isDone(item.getIsDone())
-                .build();
+        return saveItemRS;
     }
 
     @GetMapping
     public List<TodoItem> getItems(){
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
-        ListItemRS listItemRS = listItemService.execute(ListItemRQ.builder().mode(Mode.ALL).build());
+        ListItemRS listItemRS = listItemService.execute(ListItemRQ.builder()
+                .mode(Mode.ALL)
+                .userId(userId)
+                .build());
+
         return listItemRS.getItems().stream().map(
                 ti -> TodoItem.builder()
+                        .code(ti.getCode())
                         .isDone(ti.getIsDone())
                         .title(ti.getTitle())
                         .description(ti.getDescription())
-                        .id(ti.getId())
                         .build()
         ).collect(Collectors.toList());
+    }
+
+    @PutMapping("/{item-code}")
+    public void mark(@PathVariable("item-code") String itemCode){
+        String userId = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        markItemService.execute(MarkItemRQ.builder().userId(userId).itemCode(itemCode).build());
     }
 
 }
