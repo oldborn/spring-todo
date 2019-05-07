@@ -1,11 +1,16 @@
 package io.github.oldborn.pet.springtodo.resource.user.document;
 
 import com.couchbase.client.java.repository.annotation.Field;
+import io.github.oldborn.pet.springtodo.resource.item.document.Item;
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Reference;
 import org.springframework.data.couchbase.core.mapping.Document;
 import org.springframework.data.couchbase.core.mapping.id.GeneratedValue;
 import org.springframework.data.couchbase.core.mapping.id.GenerationStrategy;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Safak T. @ 5/6/2019
@@ -24,4 +29,8 @@ public class User {
 
     @Field
     private String digestedPassword;
+
+    @Reference
+    @Singular
+    private List<Item> items = new ArrayList<>();
 }

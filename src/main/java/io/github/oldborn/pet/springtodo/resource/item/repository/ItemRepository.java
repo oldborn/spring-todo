@@ -6,6 +6,8 @@ import org.springframework.data.couchbase.core.query.ViewIndexed;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  * Created by Safak T. @ 5/6/2019
  * Created while listening Good God - Korn @Link https://open.spotify.com/track/5JrajjztyjvkuUB8ZqzUML
@@ -15,4 +17,5 @@ import org.springframework.stereotype.Repository;
 @N1qlPrimaryIndexed
 @ViewIndexed(designDoc = "item")
 public interface ItemRepository extends CrudRepository<Item, String> {
+    Optional<Item> findByCode(String code);
 }
