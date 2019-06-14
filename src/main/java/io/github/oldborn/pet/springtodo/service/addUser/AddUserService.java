@@ -32,6 +32,7 @@ public class AddUserService implements AsyncableService<AddUserRQ, AddUserRS> {
         userRepository.save(User.builder()
                 .email(request.getEmail())
                 .digestedPassword(digestedPassword)
+                .roles(request.getRoles())
                 .build());
         return new AddUserRS();
     }

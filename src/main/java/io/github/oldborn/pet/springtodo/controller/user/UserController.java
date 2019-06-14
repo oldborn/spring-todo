@@ -9,10 +9,10 @@ import io.github.oldborn.pet.springtodo.service.authUser.AuthUserRQ;
 import io.github.oldborn.pet.springtodo.service.authUser.AuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Created by Safak T. @ 5/6/2019
@@ -30,10 +30,11 @@ public class UserController {
     private AuthUserService authUserService;
 
     @PostMapping("/sign-up")
-    public SignupResponse createUser(@RequestBody @Validated UserCredentialsRequest request){
+    public SignupResponse createUser(@RequestParam String[] roles, @RequestBody @Validated UserCredentialsRequest request){
         addUserService.execute(AddUserRQ.builder()
                 .email(request.getEmail())
                 .password(request.getPassword())
+                .roles(Arrays.asList(roles))
                 .build());
         return new SignupResponse();
     }

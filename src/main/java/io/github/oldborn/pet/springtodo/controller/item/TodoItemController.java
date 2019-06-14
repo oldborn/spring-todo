@@ -15,6 +15,8 @@ import io.github.oldborn.pet.springtodo.service.saveItem.SaveItemRQ;
 import io.github.oldborn.pet.springtodo.service.saveItem.SaveItemRS;
 import io.github.oldborn.pet.springtodo.service.saveItem.SaveItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -90,6 +92,7 @@ public class TodoItemController {
                 .build());
     }
 
+    @PreAuthorize("hasAuthority('PEASANT')")
     @DeleteMapping("/{item-code}")
     public void remove(@PathVariable("item-code") String itemCode){
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();

@@ -30,6 +30,9 @@ public class User {
     @Field
     private String digestedPassword;
 
+    @Field
+    private List<String> roles = new ArrayList<>();
+
     @Reference
     @Singular
     private List<Item> items = new ArrayList<>();

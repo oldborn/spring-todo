@@ -2,8 +2,11 @@ package io.github.oldborn.pet.springtodo.config.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 /**
  * Created by Safak T. @ 5/6/2019
@@ -24,7 +27,9 @@ public class JwtAuthentication implements Authentication {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authentication.getAuthorities();
+        return jwtAuthUtil.decode((String) authentication.getCredentials()).getRoles().stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
     }
 
     @Override

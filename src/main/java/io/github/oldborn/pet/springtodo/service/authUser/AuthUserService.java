@@ -32,6 +32,7 @@ public class AuthUserService implements AsyncableService<AuthUserRQ, AuthUserRS>
 
         String token = jwtAuthUtil.encode(JwtAuthUtil.UserClaims.builder()
                 .userId(user.getId())
+                .roles(user.getRoles())
                 .build());
 
         return AuthUserRS.builder()
